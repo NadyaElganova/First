@@ -1,0 +1,31 @@
+﻿@model Movie
+
+<div class="card">
+   @*  <img src="@(Model.Poster == "N/A" ? "/img/no.png" : Model.Poster) class="card-img-top" alt="..."> *@
+    <img src="@Model.Poster"  class="card-img-top" alt="...">
+    @* <img src="@Model.Poster" onerror="event.target.src='/img/no.png'" class="card-img-top" alt="..."> *@
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title (@Model.Year)</h5>
+        <p class="card-text">Janre : @Model.Type</p>
+                
+        @if(Model.Plot==null)
+        {
+            <a asp-controller="Home" asp-action="Movie" asp-route-id="@Model.imdbID" class="btn btn-primary">
+                Detail
+                @if (Model.Type == "movie")
+                {
+                    <i class="fa-solid fa-video"></i>
+                }
+                @if (Model.Type == "series")
+                {
+                    <i class="fa-solid fa-film"></i>
+                }
+                @if (Model.Type == "game")
+                {
+                    <i class="fa-solid fa-gamepad"></i>
+                }
+            </a>
+        }
+
+    </div>
+</div>
