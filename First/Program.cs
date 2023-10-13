@@ -1,4 +1,5 @@
 
+using First.Extensions;
 using First.Options;
 using First.Services;
 
@@ -15,7 +16,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddMemoryCache();
 
-builder.Services.Configure<MovieApiOptions>(options =>
+builder.Services.AddMovieService(options =>
 {
     options.ApiKey = builder.Configuration["ConnectionStrings:ApiKey"];
     options.BaseUrl = builder.Configuration["ConnectionStrings:BaseUrl"];
@@ -23,9 +24,11 @@ builder.Services.Configure<MovieApiOptions>(options =>
 
 //builder.Services.AddSingleton(); //для неизменяемых объектов
 //builder.Services.AddScoped(); //легковесный запрос (курс доллара...)
-builder.Services.AddTransient<IMovieApiService, MovieApiService>();
+
 builder.Services.AddHttpClient();
 
+//Extensions
+//builder.Services.AddMovieService();
 
 var app = builder.Build();
 
