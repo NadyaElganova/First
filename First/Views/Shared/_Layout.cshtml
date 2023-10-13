@@ -23,6 +23,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            @Html.ActionLink("Home_2", "Index", "Home", null, new {title="Home Page", @class="nav-link text-dark"})
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li>
@@ -35,6 +38,19 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+
+            @* @Html.MovieLink() *@
+            @* @Html.EmailLink("elganovanv@gmail.com")
+            @Html.EmailLink("elganovanv@gmail.com", "Nadya") *@
+            
+            @{
+                string[] countries = new string[] { "Великобритания", "Франция", "Германия", "Россия", "США" };
+            }
+
+            <email-link my-title="Nadya" email="elganovanv@gmail.com"></email-link>
+
+            <list-helper items="countries"></list-helper>
+
             @RenderBody()
         </main>
     </div>
