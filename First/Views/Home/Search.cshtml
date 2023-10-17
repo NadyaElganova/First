@@ -1,4 +1,4 @@
-﻿@model MovieApiResponse
+﻿@model SearchViewModel
 @{
     ViewData["Title"] = "Search";
 }
@@ -7,19 +7,19 @@
 
 
 <div class="container">
-    @if (ViewBag.errorMessage != null)
+    @if (Model.Error != null)
     {
-        <h1 class="text-danger">@ViewBag.errorMessage</h1>
+        <h1 class="text-danger">@Model.Error</h1>
     }
-    else if (!string.IsNullOrWhiteSpace(@ViewBag.searchMovie))
+    else if (!string.IsNullOrWhiteSpace(@Model.Title))
     {
-        <p>Search results by title : @ViewBag.searchMovie (@Model.totalResults)</p>
+        <p>Search results by title : @Model.Title (@Model.TotalResults)</p>
 
         <div class="row">
-            @foreach (Movie item in @Model.Search)
+            @foreach (Movie item in @Model.Movies)
             {
-                <p>Search results bu title: </p>
-                <div class="col-3">
+                
+                <div class="col-4">
                     <partial name="MovieCardPartial" model="@item"></partial>
                 </div>
                 
@@ -32,6 +32,49 @@
                     </div>
                 </div> *@
             }
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+
+
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link"
+                               asp-action="Search"
+                               asp-controller="Home"
+                               asp-route-page="@(Model.CurrentPage-1)"
+                               asp-route-title="@Model.Title">Previous</a>
+                        </li>
+                    }
+
+                    @*    @for (int i = Model.CurrentPage; i <= Model.CurrentPage + 10; i++) *@
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i==Model.CurrentPage ? "active" : ' ')">
+                            <a class="page-link"
+                               asp-action="Search"
+                               asp-controller="Home"
+                               asp-route-page="@i"
+                               asp-route-title="@Model.Title">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.TotalPages > Model.CurrentPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link"
+                               asp-action="Search"
+                               asp-controller="Home"
+                               asp-route-page="@(Model.CurrentPage+1)"
+                               asp-route-title="@Model.Title">Next</a>
+                        </li>
+                    }
+
+                </ul>
+            </nav>
         </div>
 
         @*<p>@ViewBag.Result</p>*@

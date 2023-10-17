@@ -2,8 +2,14 @@
 
 <div class="card">
    @*  <img src="@(Model.Poster == "N/A" ? "/img/no.png" : Model.Poster) class="card-img-top" alt="..."> *@
-    <img src="@Model.Poster"  class="card-img-top" alt="...">
+   
     @* <img src="@Model.Poster" onerror="event.target.src='/img/no.png'" class="card-img-top" alt="..."> *@
+    
+    <div class="img-container">
+        <div class="img-blur" style="background-image:url(@Model.Poster)"></div>
+        <img src="@Model.Poster" class="card-img-top" alt="...">
+    </div>
+    
     <div class="card-body">
         <h5 class="card-title">@Model.Title (@Model.Year)</h5>
         <p class="card-text">Janre : @Model.Type</p>
@@ -26,5 +32,6 @@
                 }
             </a>
         }
+
     </div>
 </div>
