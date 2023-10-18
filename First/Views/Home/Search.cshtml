@@ -39,28 +39,34 @@
                 <ul class="pagination">
 
 
-                    @if (Model.CurrentPage > 1)
+                    @if (Model.CurrentPage > 1) //выбран стр
                     {
                         <li class="page-item">
                             <a class="page-link"
                                asp-action="Search"
                                asp-controller="Home"
                                asp-route-page="@(Model.CurrentPage-1)"
-                               asp-route-title="@Model.Title">Previous</a>
+                               asp-route-title="@Model.Title"
+                               asp-route-endPage="@ViewBag.endPage"
+                               asp-route-startPage="@ViewBag.startPage">Previous</a>
                         </li>
                     }
 
-                    @*    @for (int i = Model.CurrentPage; i <= Model.CurrentPage + 10; i++) *@
-                    @for (int i = 1; i <= Model.TotalPages; i++)
-                    {
-                        <li class="page-item @(i==Model.CurrentPage ? "active" : ' ')">
+
+                    @for (int i = ViewBag.startPage; i <= ViewBag.endPage && i <= Model.TotalPages; i++)
+                    {                        
+                          <li class="page-item @(i==Model.CurrentPage ? "active" : ' ')">
                             <a class="page-link"
                                asp-action="Search"
                                asp-controller="Home"
                                asp-route-page="@i"
-                               asp-route-title="@Model.Title">@i</a>
-                        </li>
+                               asp-route-title="@Model.Title"
+                               asp-route-endPage ="@ViewBag.endPage"
+                               asp-route-startPage="@ViewBag.startPage"
+                            >@i</a>
+                        </li>  
                     }
+                    
 
                     @if (Model.TotalPages > Model.CurrentPage)
                     {
@@ -69,7 +75,9 @@
                                asp-action="Search"
                                asp-controller="Home"
                                asp-route-page="@(Model.CurrentPage+1)"
-                               asp-route-title="@Model.Title">Next</a>
+                               asp-route-title="@Model.Title"
+                               asp-route-endPage="@ViewBag.endPage"
+                               asp-route-startPage="@ViewBag.startPage">Next</a>
                         </li>
                     }
 
