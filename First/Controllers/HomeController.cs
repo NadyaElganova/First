@@ -9,6 +9,7 @@ namespace First.Controllers
     public class HomeController : Controller
     {
         private readonly IMovieApiService movieApiService;
+       
         public HomeController(IMovieApiService movieApiService)
         {
             this.movieApiService = movieApiService;
@@ -34,7 +35,7 @@ namespace First.Controllers
 
             return View(movie);
         }
-        public async Task<IActionResult> Search(string title, int page=1)
+        public async Task<IActionResult> Search(string title, int page = 1, int startPage = 1, int endPage = 10)
         {
             // search movies
 
@@ -52,8 +53,28 @@ namespace First.Controllers
                 searchViewModel.Movies = result.Cinemas;
                 searchViewModel.Response = result.Response;
                 searchViewModel.Error = result.Error;
-                searchViewModel.CurrentPage = page;
+                searchViewModel.CurrentPage = page;                
                 searchViewModel.TotalPages = (int)Math.Ceiling(result.TotalResults / 10.0);
+
+                if (searchViewModel.TotalPages > 10)
+                {
+                    if (searchViewModel.CurrentPage >= (endPage-4))
+                    {
+                        if (startPage != searchViewModel.TotalPages)
+                        {
+                            startPage = searchViewModel.CurrentPage;
+                        }
+                        endPage = searchViewModel.CurrentPage + 9;
+                    }
+
+                    if (endPage > searchViewModel.TotalPages)
+                    {
+                        endPage = searchViewModel.TotalPages;
+                    }
+                }
+
+                ViewBag.startPage = startPage;
+                ViewBag.endPage = endPage;
             }
             catch (Exception ex)
             {
