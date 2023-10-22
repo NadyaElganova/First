@@ -2,6 +2,8 @@
 using First.Services;
 using First.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Diagnostics;
 
 namespace First.Controllers
@@ -9,17 +11,20 @@ namespace First.Controllers
     public class HomeController : Controller
     {
         private readonly IMovieApiService movieApiService;
-       
-        public HomeController(IMovieApiService movieApiService)
+        private readonly IRecentMovieStorage recentMovieStorage;
+        
+        public HomeController(IMovieApiService movieApiService, IRecentMovieStorage recentMovieStorage)
         {
             this.movieApiService = movieApiService;
+            this.recentMovieStorage = recentMovieStorage;
         }
 
         public IActionResult Index()
         {
             //ViewBag.name = "Nadya";
             //ViewBag.age = "28";
-            return View();
+            var result = recentMovieStorage.GetRecent();
+            return View(result);
         }
         public async Task<IActionResult> Movie(string id)
         {
@@ -27,6 +32,7 @@ namespace First.Controllers
             try
             {
                 movie = await movieApiService.SearchByIdAsync(id);
+                recentMovieStorage.Add(movie);
             }
             catch (Exception ex)
             {
@@ -34,6 +40,21 @@ namespace First.Controllers
             }
 
             return View(movie);
+        }
+        public async Task<IActionResult> MovieModal(string id)
+        {
+            Movie movie = null;
+            try
+            {
+                movie = await movieApiService.SearchByIdAsync(id);
+                recentMovieStorage.Add(movie);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.errorMessage = ex.Message;
+            }
+
+            return PartialView("_MovieModalPartial", movie);
         }
         public async Task<IActionResult> Search(string title, int page = 1, int startPage = 1, int endPage = 10)
         {
@@ -53,7 +74,8 @@ namespace First.Controllers
                 searchViewModel.Movies = result.Cinemas;
                 searchViewModel.Response = result.Response;
                 searchViewModel.Error = result.Error;
-                searchViewModel.CurrentPage = page;                
+                searchViewModel.CurrentPage = page;
+                searchViewModel.TotalResults = result.TotalResults;
                 searchViewModel.TotalPages = (int)Math.Ceiling(result.TotalResults / 10.0);
 
                 if (searchViewModel.TotalPages > 10)
@@ -99,3 +121,4 @@ namespace First.Controllers
         }
     }
 }
+

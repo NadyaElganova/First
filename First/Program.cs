@@ -22,6 +22,8 @@ builder.Services.AddMovieService(options =>
     options.BaseUrl = builder.Configuration["ConnectionStrings:BaseUrl"];
 });
 
+builder.Services.AddSingleton<IRecentMovieStorage, RecentMovieStorage>();
+
 //builder.Services.AddSingleton(); //для неизменяемых объектов
 //builder.Services.AddScoped(); //легковесный запрос (курс доллара...)
 
@@ -29,6 +31,7 @@ builder.Services.AddHttpClient();
 
 //Extensions
 //builder.Services.AddMovieService();
+
 
 var app = builder.Build();
 
