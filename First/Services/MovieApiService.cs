@@ -57,10 +57,10 @@ namespace First.Services
                 if (result.Response == "False")
                     throw new Exception(result.Error);
 
-                var cacheTime = new MemoryCacheEntryOptions();
-                cacheTime.SetAbsoluteExpiration(TimeSpan.FromDays(5));
+                //var cacheTime = new MemoryCacheEntryOptions();
+                //cacheTime.SetAbsoluteExpiration(TimeSpan.FromDays(5));
 
-                memoryCache.Set(id, result);
+                //memoryCache.Set(id, result);
             }
                                   
             return result;
