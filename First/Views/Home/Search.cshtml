@@ -15,7 +15,7 @@
     {
         <p>Search results by title : @Model.Title (@Model.TotalResults)</p>
 
-        <div class="row">
+        <div class="row films">
             @foreach (Movie item in @Model.Movies)
             {
                 
@@ -129,6 +129,24 @@
             $('#exampleModal').modal('show');
         });
 
+
+        //scroll pagination
+        let page = @Model.CurrentPage;
+        let allPages = @Model.TotalPages;
+        let myTitle = '@Model.Title';
+        let scroll = true;
+
+        window.addEventListener('scroll', async function () {
+           
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 100 && scroll && page <= allPages) {
+                scroll = false;
+                page++;
+                let response = await fetch(`/Home/SearchResult?page=${page}&title=${myTitle}`);
+                let result = await response.text();
+                $('.films').append(result);
+                scroll = true; 
+            }
+        });
 
 
     </script>
