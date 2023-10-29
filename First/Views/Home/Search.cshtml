@@ -15,7 +15,7 @@
     {
         <p>Search results by title : @Model.Title (@Model.TotalResults)</p>
 
-        <div class="row films">
+        @* <div class="row films">
             @foreach (Movie item in @Model.Movies)
             {
                 
@@ -23,7 +23,26 @@
                     <partial name="MovieCardPartial" model="@item"></partial>
                 </div>    
             }
+        </div> *@
+
+        <!-- Products Start -->
+        <div class="container-fluid pt-5 ">
+            <div class="text-center mb-4">
+                <h2 class="section-title px-5"><span class="px-2">@Model.Title</span></h2>
+            </div>
+            <div class="row px-xl-5 pb-3 films">
+                @foreach (Movie item in @Model.Movies)
+                {
+
+                    <div class="col-4">
+                        <partial name="MovieCardPartial" model="@item"></partial>
+                    </div>
+                }
+
+            </div>
         </div>
+        <!-- Products End -->
+
 
         <div class="d-flex justify-content-center mt-4">
             <nav aria-label="Page navigation example">
