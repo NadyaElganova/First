@@ -1,23 +1,23 @@
 ﻿@model Movie
 
-<div class="card">
-
-     <div class="img-container">
-        <div class="img-blur" style="background-image:url(@Model.Poster)"></div>
-         <img src="@Model.Poster" onerror="event.target.src='/images/placeholder.png'" class="card-img-top" alt="...">  
-    </div>
-
-    <div class="card-body">
-        <h5 class="card-title">@Model.Title (@Model.Year)</h5>
-        <p class="card-text">Janre : @Model.Type</p>
-
-        @if (Model.Plot == null)
-        {
-            <a my-type="Full" movie="@Model"></a>
-            <a my-type="Modal" movie="@Model" data-open-modal></a>
-            @*<movie-details movie="@Model"></movie-details>*@
-            @*<a asp-controller="Home" asp-action="Movie"  asp-route-id="@Model.imdbID" class="btn btn-primary">Detail</a>*@
-        }
-
+<div class="pb-1">
+    <div class="card product-item border-0 mb-4">
+        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+            <img class="img-fluid w-100" src="@Model.Poster" alt="">
+        </div>
+        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+            <h6 class="text-truncate mb-3">@Model.Title (@Model.Year)</h6>
+            <p class="card-text">Janre : @Model.Type</p>
+            <div class="d-flex justify-content-center">
+                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between bg-light border">
+            <a my-type="Full" movie="@Model" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i></a>
+            <a a my-type="Modal" movie="@Model" data-open-modal class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i></a>
+        </div>
     </div>
 </div>
+
+
+

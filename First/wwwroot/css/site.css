@@ -52,3 +52,16 @@ body {
     overflow: hidden;
     margin: 3px;
 }
+
+.foot{
+    height:300px;
+}
+
+.own-stage{
+    margin:20px;
+}
+
+.col-4 {
+    flex: 0 0 60%;
+    max-width: 100%;
+}
